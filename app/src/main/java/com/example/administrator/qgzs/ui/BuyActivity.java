@@ -27,7 +27,6 @@ public class BuyActivity extends Activity {
     List<Goods> list;
     BuyAdapter adapter;
 
-
     private BuyDatabaseHelper helper;
 
     @Override
@@ -36,7 +35,6 @@ public class BuyActivity extends Activity {
         setContentView(R.layout.activity_buy);
         ButterKnife.bind(this);
         init();
-
     }
 
     private void init() {
@@ -46,8 +44,6 @@ public class BuyActivity extends Activity {
         recyclerView.setLayoutManager(linearLayoutManager);
         //数据库
         helper = new BuyDatabaseHelper(this);
-        Goods good=new Goods("1213232","121");
-        helper.insert(good);
         initData();
     }
 

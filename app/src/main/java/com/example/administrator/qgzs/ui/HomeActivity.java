@@ -1,20 +1,29 @@
 package com.example.administrator.qgzs.ui;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.administrator.qgzs.MainAPP;
 import com.example.administrator.qgzs.R;
 import com.example.administrator.qgzs.adapter.HomeAdapter;
 import com.example.administrator.qgzs.bean.Goods;
 import com.example.administrator.qgzs.persenter.JudgePresenter;
 import com.example.administrator.qgzs.utils.DatabaseHelper;
+import com.example.administrator.qgzs.utils.VibratorUtil;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,17 +46,6 @@ public class HomeActivity extends Activity {
 
     private DatabaseHelper helper;
 
-    final Handler handler = new Handler();
-    Runnable runnable = new Runnable(){
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-            // 在此处添加执行的代码
-            Log.i("Tag","Judge()");
-            handler.postDelayed(this, 1000);// 50是延时时长
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +64,9 @@ public class HomeActivity extends Activity {
         //数据库
         helper = new DatabaseHelper(this);
         //定时执行
-        handler.postDelayed(runnable, 1000);// 打开定时器，执行操作
-//        handler.removeCallbacks(runnable);// 关闭定时器处理
+        handler.postDelayed(runnable,4000);
+        //通知
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     public void initData() {
@@ -112,10 +111,50 @@ public class HomeActivity extends Activity {
 
     private void Judge() {
         if (isWork) {
+            Bingo();
             for (Goods goods : list) {
-                JudgePresenter.doJudge(goods.getGoodsID());
+                JudgePresenter.doJudge(goods.getId(),goods.getGoodsID(),goods.getPrice());
             }
         }
+    }
+
+    Handler handler=new Handler();
+    Runnable runnable=new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            Judge();
+            handler.postDelayed(this, 5*60*1000);
+        }
+    };
+
+    public AlertDialog alertDialog;
+    public void Bingo(){
+        //震动
+        VibratorUtil.Vibrate(this, 500); //震动100ms  
+        //弹框
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Bingo");
+        builder.setMessage("查询到符合条件的商品啦！快去查看把！");
+        builder.setPositiveButton("知道啦", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog = builder.show();
+
+        //铃声
+        MediaPlayer mp = new MediaPlayer();
+        try {
+            mp.setDataSource(this, RingtoneManager
+                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            mp.prepare();
+            mp.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
