@@ -54,6 +54,7 @@ public class HomeActivity extends Activity {
         init();
         initData();
 
+
     }
 
     private void init() {
