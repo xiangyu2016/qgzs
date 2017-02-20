@@ -53,8 +53,6 @@ public class HomeActivity extends Activity {
         ButterKnife.bind(this);
         init();
         initData();
-
-
     }
 
     private void init() {
