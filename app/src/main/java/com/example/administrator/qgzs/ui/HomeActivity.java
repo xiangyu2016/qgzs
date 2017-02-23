@@ -1,7 +1,10 @@
 package com.example.administrator.qgzs.ui;
 
 import android.app.Activity;
+
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,20 +12,24 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
+
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.administrator.qgzs.MainAPP;
 import com.example.administrator.qgzs.R;
 import com.example.administrator.qgzs.adapter.HomeAdapter;
 import com.example.administrator.qgzs.bean.Goods;
+import com.example.administrator.qgzs.event.BingoEvent;
 import com.example.administrator.qgzs.persenter.JudgePresenter;
 import com.example.administrator.qgzs.utils.DatabaseHelper;
 import com.example.administrator.qgzs.utils.VibratorUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -64,8 +71,11 @@ public class HomeActivity extends Activity {
         helper = new DatabaseHelper(this);
         //定时执行
         handler.postDelayed(runnable,4000);
-        //通知
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //在当前界面注册一个订阅者
+        EventBus.getDefault().register(this);
+
+
+
     }
 
     public void initData() {
@@ -110,7 +120,6 @@ public class HomeActivity extends Activity {
 
     private void Judge() {
         if (isWork) {
-            Bingo();
             for (Goods goods : list) {
                 JudgePresenter.doJudge(goods.getId(),goods.getGoodsID(),goods.getPrice());
             }
@@ -153,7 +162,36 @@ public class HomeActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //通知
+        Intent intent = new Intent(this, BuyActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+        notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.buy_icon)
+                .setTicker("有新的商品符合条件啦！")
+                .setContentTitle("抢购助手")
+                .setContentText("有新的商品符合条件啦！点击查看")
+                .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                .setContentIntent(contentIntent)
+                .setContentInfo("Info");
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notificationBuilder.build());
+
+        //刷新数据
+        initData();
 
     }
 
+    @Subscribe //订阅事件FirstEvent
+    public void onEventMainThread(BingoEvent event){
+       Bingo();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);//取消注册
+    }
 }

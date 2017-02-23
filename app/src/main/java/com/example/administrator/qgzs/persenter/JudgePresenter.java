@@ -1,26 +1,20 @@
 package com.example.administrator.qgzs.persenter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Vibrator;
 import android.util.Log;
-
 import com.example.administrator.qgzs.MainAPP;
 import com.example.administrator.qgzs.bean.Goods;
 import com.example.administrator.qgzs.bean.PriceBean;
-import com.example.administrator.qgzs.ui.HomeActivity;
+import com.example.administrator.qgzs.event.BingoEvent;
 import com.example.administrator.qgzs.utils.BuyDatabaseHelper;
 import com.example.administrator.qgzs.utils.DatabaseHelper;
 import com.example.administrator.qgzs.utils.HttpApi;
 import com.example.administrator.qgzs.utils.RetrofitUtils;
-import com.example.administrator.qgzs.utils.VibratorUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -90,6 +84,6 @@ public class JudgePresenter {
         Goods goods=new Goods(goodsID,price);
         buyHelper.insert(goods);
         //更新UI
-
+        EventBus.getDefault().post(new BingoEvent("Bingo!"));
     }
 }
