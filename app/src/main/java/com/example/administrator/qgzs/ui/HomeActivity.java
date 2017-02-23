@@ -184,7 +184,7 @@ public class HomeActivity extends Activity {
 
     }
 
-    @Subscribe //订阅事件FirstEvent
+    @Subscribe //订阅事件 FirstEvent
     public void onEventMainThread(BingoEvent event){
        Bingo();
     }
