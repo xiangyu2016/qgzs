@@ -76,13 +76,13 @@ public class JudgePresenter {
 
     public static void Bingo( String ID, String goodsID, String price){
 
-        //删除
-        DatabaseHelper helper=new DatabaseHelper(MainAPP.app);
-        helper.deleteAGoodsBean(Integer.parseInt(ID));
-        //添加
-        BuyDatabaseHelper buyHelper=new BuyDatabaseHelper(MainAPP.app);
-        Goods goods=new Goods(goodsID,price);
-        buyHelper.insert(goods);
+//        //删除
+//        DatabaseHelper helper=new DatabaseHelper(MainAPP.app);
+//        helper.deleteAGoodsBean(Integer.parseInt(ID));
+//        //添加
+//        BuyDatabaseHelper buyHelper=new BuyDatabaseHelper(MainAPP.app);
+//        Goods goods=new Goods(goodsID,price);
+//        buyHelper.insert(goods);
         //更新UI
         EventBus.getDefault().post(new BingoEvent("Bingo!"));
     }

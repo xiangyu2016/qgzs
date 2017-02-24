@@ -3,6 +3,7 @@ package com.example.administrator.qgzs.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,6 +26,11 @@ public class AddActivity extends Activity {
     EditText goodsID;
     @BindView(R.id.price)
     EditText price;
+    @BindView(R.id.miaosha)
+    CheckBox miaosha;
+    @BindView(R.id.danjia)
+    CheckBox danjia;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,8 @@ public class AddActivity extends Activity {
         Goods bean = new Goods();
         bean.setGoodsID(goodsID.getText().toString());
         bean.setPrice(price.getText().toString());
+        bean.setMiaosha(miaosha.isChecked());
+        bean.setDanjia(danjia.isChecked());
         if (bean.getGoodsID().equals("")) {
             Toast.makeText(this, "请填写商品编码！", Toast.LENGTH_SHORT).show();
             return;
@@ -62,10 +70,15 @@ public class AddActivity extends Activity {
             Toast.makeText(this, "请填写期望价格！", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (miaosha.isChecked()|danjia.isChecked()){
+            DatabaseHelper helper = new DatabaseHelper(this);
+            helper.insert(bean);
+            ToastUtil.showToast("添加完成");
+            Finish();
+        }else {
+            Toast.makeText(this, "请选择检测模式！", Toast.LENGTH_SHORT).show();
+        }
 
-        DatabaseHelper helper = new DatabaseHelper(this);
-        helper.insert(bean);
-        ToastUtil.showToast("添加完成");
-        Finish();
+
     }
 }

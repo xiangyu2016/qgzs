@@ -46,6 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE GoodsBean (id INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ",goodsID VARCHAR(40)" +
                 ",price VARCHAR(20)" +
+                ",miaosha VARCHAR(20)" +
+                ",danjia VARCHAR(20)" +
                 ")");
         db.execSQL("CREATE TABLE BuyGoodsBean (id INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ",goodsID VARCHAR(40)" +
@@ -73,8 +75,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         //向GoodsBean表插入一条数据
         database.execSQL(
-                "INSERT INTO GoodsBean(goodsID, price) VALUES(?,?)",
-                new Object[]{bean.getGoodsID(), bean.getPrice()});
+                "INSERT INTO GoodsBean(goodsID, price, miaosha, danjia) VALUES(?,?,?,?)",
+                new Object[]{bean.getGoodsID(), bean.getPrice(),bean.getMiaosha(),bean.getDanjia()});
     }
 
     /**
@@ -113,6 +115,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             bean.setId(cursor.getString(cursor.getColumnIndex("id")));
             bean.setGoodsID(cursor.getString(cursor.getColumnIndex("goodsID")));
             bean.setPrice(cursor.getString(cursor.getColumnIndex("price")));
+            bean.setMiaosha(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex("miaosha"))));
+            bean.setDanjia(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex("danjia"))));
             list.add(bean);
         }
         cursor.close();

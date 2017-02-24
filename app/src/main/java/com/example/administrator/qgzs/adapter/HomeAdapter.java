@@ -1,18 +1,21 @@
 package com.example.administrator.qgzs.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.administrator.qgzs.R;
 import com.example.administrator.qgzs.bean.Goods;
+import com.example.administrator.qgzs.event.BingoEvent;
+import com.example.administrator.qgzs.event.SetCheckedEvent;
 import com.example.administrator.qgzs.ui.HomeActivity;
 import com.example.administrator.qgzs.utils.DatabaseHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -36,21 +39,31 @@ public class HomeAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.adapter_item, null);
-        ViewHolder holder=new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        ViewHolder item= (ViewHolder) holder;
+        final ViewHolder item = (ViewHolder) holder;
         item.id.setText(list.get(position).getGoodsID());
-        item.price.setText(""+list.get(position).getPrice()+" 元");
+        item.price.setText("" + list.get(position).getPrice() + " 元");
+        if (list.get(position).getMiaosha())item.miaosha.setVisibility(View.VISIBLE);
+        if (list.get(position).getDanjia())item.danjia.setVisibility(View.VISIBLE);
+        if (list.get(position).getBingo())item.bingoText.setVisibility(View.VISIBLE);
+
         item.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               DatabaseHelper helper = new DatabaseHelper(context);
-               helper.deleteAGoodsBean(Integer.parseInt(list.get(position).getId()));
-                ((HomeActivity)context).initData();
+                DatabaseHelper helper = new DatabaseHelper(context);
+                helper.deleteAGoodsBean(Integer.parseInt(list.get(position).getId()));
+                ((HomeActivity) context).initData();
+            }
+        });
+        item.isChecked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new SetCheckedEvent(item.isChecked.isChecked(),position));
             }
         });
     }
@@ -61,16 +74,26 @@ public class HomeAdapter extends RecyclerView.Adapter {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.isChecked)
+        CheckBox isChecked;
         @BindView(R.id.id)
         TextView id;
         @BindView(R.id.price)
         TextView price;
         @BindView(R.id.delete)
-        Button delete;
+        TextView delete;
+        @BindView(R.id.miaosha)
+        TextView miaosha;
+        @BindView(R.id.danjia)
+        TextView danjia;
+        @BindView(R.id.bingo_text)
+        TextView bingoText;
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
     }
+
+
 }

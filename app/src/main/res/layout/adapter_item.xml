@@ -1,43 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:layout_gravity="center"
+            android:id="@+id/isChecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="12dp"
+            android:layout_weight="3"
+            android:text="6758578768"
+            android:textColor="@color/color_dark_black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="12dp"
+            android:layout_weight="2"
+            android:text="166元"
+            android:textColor="@color/color_dark_black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="删除"
+            android:textColor="@color/color_dark_black"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="44dp">
 
-        <TextView
-            android:id="@+id/id"
-            android:layout_weight="3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="12dp"
-            android:text="6758578768"
-            android:textColor="@color/color_dark_black"
-            android:textSize="15sp" />
+        <CheckBox
+            android:visibility="invisible"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/price"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="12dp"
-            android:text="166元"
-            android:textColor="@color/color_dark_black"
-            android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/delete"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:text="删除"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TextView
+                android:gravity="center_vertical"
+                android:text="检测模式："
+                android:textColor="@color/color_dark_black"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/miaosha"
+                android:gravity="center_vertical"
+                android:text="秒杀    "
+                android:textColor="@color/color_dark_black"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/danjia"
+                android:gravity="center_vertical"
+                android:text="单价"
+                android:textColor="@color/color_dark_black"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
 
+            <TextView
+                android:visibility="gone"
+                android:layout_marginStart="20dp"
+                android:id="@+id/bingo_text"
+                android:gravity="center_vertical"
+                android:text="符合！快去购买！"
+                android:textColor="@color/colorRed"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
 
     <View

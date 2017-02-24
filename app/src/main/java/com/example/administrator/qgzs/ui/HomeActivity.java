@@ -24,6 +24,7 @@ import com.example.administrator.qgzs.R;
 import com.example.administrator.qgzs.adapter.HomeAdapter;
 import com.example.administrator.qgzs.bean.Goods;
 import com.example.administrator.qgzs.event.BingoEvent;
+import com.example.administrator.qgzs.event.SetCheckedEvent;
 import com.example.administrator.qgzs.persenter.JudgePresenter;
 import com.example.administrator.qgzs.utils.DatabaseHelper;
 import com.example.administrator.qgzs.utils.VibratorUtil;
@@ -52,6 +53,7 @@ public class HomeActivity extends Activity {
     HomeAdapter adapter;
 
     private DatabaseHelper helper;
+    private MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class HomeActivity extends Activity {
         handler.postDelayed(runnable,4000);
         //在当前界面注册一个订阅者
         EventBus.getDefault().register(this);
+        //声音
+        mPlayer = MediaPlayer.create(this,R.raw.ring);
 
 
 
@@ -92,9 +96,9 @@ public class HomeActivity extends Activity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buyButton:
-                Intent toBuyActivity = new Intent(this, BuyActivity.class);
-                startActivity(toBuyActivity);
-                overridePendingTransition(R.animator.activity_buy_to_home_in, R.animator.activity_home_to_buy_out);
+//                Intent toBuyActivity = new Intent(this, BuyActivity.class);
+//                startActivity(toBuyActivity);
+//                overridePendingTransition(R.animator.activity_buy_to_home_in, R.animator.activity_home_to_buy_out);
                 break;
             case R.id.addTask:
                 Intent toAddTask = new Intent(this, AddActivity.class);
@@ -121,7 +125,9 @@ public class HomeActivity extends Activity {
     private void Judge() {
         if (isWork) {
             for (Goods goods : list) {
-                JudgePresenter.doJudge(goods.getId(),goods.getGoodsID(),goods.getPrice());
+
+                if(goods.getChecked())
+                    JudgePresenter.doJudge(goods.getId(),goods.getGoodsID(),goods.getPrice());
             }
         }
     }
@@ -153,17 +159,10 @@ public class HomeActivity extends Activity {
         alertDialog = builder.show();
 
         //铃声
-        MediaPlayer mp = new MediaPlayer();
-        try {
-            mp.setDataSource(this, RingtoneManager
-                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-            mp.prepare();
-            mp.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mPlayer.start();
+
         //通知
-        Intent intent = new Intent(this, BuyActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setAutoCancel(true)
@@ -187,6 +186,11 @@ public class HomeActivity extends Activity {
     @Subscribe //订阅事件 FirstEvent
     public void onEventMainThread(BingoEvent event){
        Bingo();
+    }
+
+    @Subscribe //订阅事件
+    public void onEventSetIsChecked(SetCheckedEvent event){
+        list.get(event.getPosition()).setChecked(event.getChecked());
     }
 
     @Override

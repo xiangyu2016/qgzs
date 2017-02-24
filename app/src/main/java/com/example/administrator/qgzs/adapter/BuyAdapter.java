@@ -67,7 +67,7 @@ public class BuyAdapter extends RecyclerView.Adapter {
         @BindView(R.id.price)
         TextView price;
         @BindView(R.id.delete)
-        Button delete;
+        TextView delete;
 
         ViewHolder(View view) {
             super(view);
