@@ -6,27 +6,27 @@ package com.example.administrator.qgzs.event;
 
 public class SetCheckedEvent {
 
-    Boolean isChecked;
-    int position;
+    private int isChecked;
+    private int position;
 
-    public SetCheckedEvent(Boolean isChecked, int position) {
+    public SetCheckedEvent(int isChecked, int position) {
         this.isChecked = isChecked;
         this.position = position;
     }
 
-    public int getPosition() {
-        return position;
+    public void setIsChecked(int isChecked) {
+        this.isChecked = isChecked;
     }
 
     public void setPosition(int position) {
         this.position = position;
     }
 
-    public Boolean getChecked() {
+    public int getIsChecked() {
         return isChecked;
     }
 
-    public void setChecked(Boolean checked) {
-        isChecked = checked;
+    public int getPosition() {
+        return position;
     }
 }

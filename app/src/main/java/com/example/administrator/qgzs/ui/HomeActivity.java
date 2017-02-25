@@ -18,6 +18,7 @@ import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.administrator.qgzs.R;
@@ -47,6 +48,8 @@ public class HomeActivity extends Activity {
     RecyclerView recyclerView;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.start)
+    Button start;
 
     Boolean isWork = true;
     List<Goods> list;
@@ -54,6 +57,8 @@ public class HomeActivity extends Activity {
 
     private DatabaseHelper helper;
     private MediaPlayer mPlayer;
+
+    private int TL=5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +84,6 @@ public class HomeActivity extends Activity {
         mPlayer = MediaPlayer.create(this,R.raw.ring);
 
 
-
     }
 
     public void initData() {
@@ -92,26 +96,23 @@ public class HomeActivity extends Activity {
         }
     }
 
-    @OnClick({R.id.buyButton, R.id.addTask, R.id.pause, R.id.start})
+    @OnClick({R.id.addTask, R.id.start})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.buyButton:
-//                Intent toBuyActivity = new Intent(this, BuyActivity.class);
-//                startActivity(toBuyActivity);
-//                overridePendingTransition(R.animator.activity_buy_to_home_in, R.animator.activity_home_to_buy_out);
-                break;
             case R.id.addTask:
                 Intent toAddTask = new Intent(this, AddActivity.class);
                 startActivity(toAddTask);
                 overridePendingTransition(R.animator.activity_top_to_bottom_in, R.animator.activity_top_to_bottom_out);
                 break;
-            case R.id.pause:
-                title.setText("已暂停");
-                isWork = false;
-                break;
             case R.id.start:
-                title.setText("检测中");
-                isWork = true;
+                if(isWork){
+                    start.setText("已暂停--点击开始");
+                    isWork = false;
+                }else {
+                    start.setText("检测中--点击暂停");
+                    isWork = true;
+                    Judge();
+                }
                 break;
         }
     }
@@ -125,9 +126,8 @@ public class HomeActivity extends Activity {
     private void Judge() {
         if (isWork) {
             for (Goods goods : list) {
-
-                if(goods.getChecked())
-                    JudgePresenter.doJudge(goods.getId(),goods.getGoodsID(),goods.getPrice());
+                if(goods.getIsChecked()==1)
+                    JudgePresenter.doJudge(goods);
             }
         }
     }
@@ -157,10 +157,8 @@ public class HomeActivity extends Activity {
             }
         });
         alertDialog = builder.show();
-
         //铃声
         mPlayer.start();
-
         //通知
         Intent intent = new Intent(this, HomeActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -177,7 +175,6 @@ public class HomeActivity extends Activity {
                 .setContentInfo("Info");
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notificationBuilder.build());
-
         //刷新数据
         initData();
 
@@ -190,7 +187,9 @@ public class HomeActivity extends Activity {
 
     @Subscribe //订阅事件
     public void onEventSetIsChecked(SetCheckedEvent event){
-        list.get(event.getPosition()).setChecked(event.getChecked());
+        list.get(event.getPosition()).setIsChecked(event.getIsChecked());
+        if(event.getIsChecked()==1)    list.get(event.getPosition()).setBingo(0);
+        helper.updateAGoods(list.get(event.getPosition()));
     }
 
     @Override

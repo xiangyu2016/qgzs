@@ -5,58 +5,48 @@ package com.example.administrator.qgzs.bean;
  */
 
 public class Goods {
-    String id;
-    String goodsID;
-    String price;
-    Boolean isChecked;
+    private String id;
+    private String goodsID;
+    private String price;
 
-    Boolean miaosha;
-    Boolean danjia;
+    private int miaosha;
+    private int danjia;
 
-    Boolean bingo;
+    private int isChecked;
+    private int bingo;
+
 
     public Goods() {
+        isChecked=BooleanBean.TRUE;
+        bingo=BooleanBean.FALSE;
     }
 
-    public Goods(String goodsID, String price, Boolean miaosha, Boolean danjia) {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setGoodsID(String goodsID) {
         this.goodsID = goodsID;
+    }
+
+    public void setPrice(String price) {
         this.price = price;
-        this.miaosha = miaosha;
-        this.danjia = danjia;
-        isChecked=true;
-        bingo=false;
     }
 
-    public void setBingo(Boolean bingo) {
+    public void setMiaosha(int miaosha) {
+        this.miaosha = miaosha;
+    }
+
+    public void setDanjia(int danjia) {
+        this.danjia = danjia;
+    }
+
+    public void setIsChecked(int isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    public void setBingo(int bingo) {
         this.bingo = bingo;
-    }
-
-    public Boolean getBingo() {
-        return bingo;
-    }
-
-    public void setMiaosha(Boolean miaosha) {
-        this.miaosha = miaosha;
-    }
-
-    public void setDanjia(Boolean danjia) {
-        this.danjia = danjia;
-    }
-
-    public Boolean getMiaosha() {
-        return miaosha;
-    }
-
-    public Boolean getDanjia() {
-        return danjia;
-    }
-
-    public Boolean getChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(Boolean checked) {
-        isChecked = checked;
     }
 
     public String getId() {
@@ -71,15 +61,19 @@ public class Goods {
         return price;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public int getMiaosha() {
+        return miaosha;
     }
 
-    public void setGoodsID(String goodsID) {
-        this.goodsID = goodsID;
+    public int getDanjia() {
+        return danjia;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public int getIsChecked() {
+        return isChecked;
+    }
+
+    public int getBingo() {
+        return bingo;
     }
 }

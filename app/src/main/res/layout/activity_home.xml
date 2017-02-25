@@ -52,21 +52,11 @@
         android:layout_gravity="bottom">
 
         <Button
-            android:id="@+id/pause"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:textColor="@color/color_dark_black"
-            android:text="暂停"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-
-        <Button
             android:id="@+id/start"
             android:textSize="14sp"
             android:gravity="center"
             android:textColor="@color/color_dark_black"
-            android:text="开始"
+            android:text="检测中--点击暂停"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent" />
