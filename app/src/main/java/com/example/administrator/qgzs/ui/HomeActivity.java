@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.administrator.qgzs.R;
@@ -50,6 +52,12 @@ public class HomeActivity extends Activity {
     TextView title;
     @BindView(R.id.start)
     Button start;
+    @BindView(R.id.tl)
+    TextView textTL;
+    @BindView(R.id.editTL)
+    EditText editTL;
+    @BindView(R.id.setTL)
+    Button setTL;
 
     Boolean isWork = true;
     List<Goods> list;
@@ -58,7 +66,8 @@ public class HomeActivity extends Activity {
     private DatabaseHelper helper;
     private MediaPlayer mPlayer;
 
-    private int TL=5;
+    private int TL=5*60;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +91,10 @@ public class HomeActivity extends Activity {
         EventBus.getDefault().register(this);
         //声音
         mPlayer = MediaPlayer.create(this,R.raw.ring);
-
+        //间隔时间
+        preferences = getPreferences(MODE_PRIVATE);
+        TL= preferences.getInt("TL",300);
+        textTL.setText(TL+"");
 
     }
 
@@ -96,7 +108,7 @@ public class HomeActivity extends Activity {
         }
     }
 
-    @OnClick({R.id.addTask, R.id.start})
+    @OnClick({R.id.addTask, R.id.start,R.id.setTL})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addTask:
@@ -113,6 +125,14 @@ public class HomeActivity extends Activity {
                     isWork = true;
                     Judge();
                 }
+                break;
+            case R.id.setTL:
+                if (!editTL.getText().toString().equals(""))
+                TL=Integer.parseInt(editTL.getText().toString());
+
+                textTL.setText(""+TL+"");
+                preferences.edit().putInt("TL",TL).apply();
+
                 break;
         }
     }
@@ -138,7 +158,7 @@ public class HomeActivity extends Activity {
         public void run() {
             // TODO Auto-generated method stub
             Judge();
-            handler.postDelayed(this, 5*60*1000);
+            handler.postDelayed(this, TL*1000);
         }
     };
 
