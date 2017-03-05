@@ -18,15 +18,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.administrator.qgzs.R;
 import com.example.administrator.qgzs.adapter.HomeAdapter;
+import com.example.administrator.qgzs.bean.BooleanBean;
 import com.example.administrator.qgzs.bean.Goods;
 import com.example.administrator.qgzs.event.BingoEvent;
+import com.example.administrator.qgzs.event.InitEvent;
 import com.example.administrator.qgzs.event.SetCheckedEvent;
 import com.example.administrator.qgzs.persenter.JudgePresenter;
 import com.example.administrator.qgzs.utils.DatabaseHelper;
@@ -58,6 +62,8 @@ public class HomeActivity extends Activity {
     EditText editTL;
     @BindView(R.id.setTL)
     Button setTL;
+    @BindView(R.id.checkedAll)
+    CheckBox checkBox;
 
     Boolean isWork = true;
     List<Goods> list;
@@ -108,7 +114,7 @@ public class HomeActivity extends Activity {
         }
     }
 
-    @OnClick({R.id.addTask, R.id.start,R.id.setTL})
+    @OnClick({R.id.addTask, R.id.start,R.id.setTL,R.id.checkedAll,R.id.buyButton})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addTask:
@@ -126,13 +132,31 @@ public class HomeActivity extends Activity {
                     Judge();
                 }
                 break;
+            case R.id.checkedAll:
+                if(!checkBox.isChecked()){
+                    for(Goods bean:list){
+                        bean.setIsChecked(0);
+                        helper.updateAGoods(bean);
+                    }
+                    initData();
+                }else {
+                    for(Goods bean:list){
+                        bean.setIsChecked(1);
+                        helper.updateAGoods(bean);
+                    }
+                    initData();
+                }
             case R.id.setTL:
                 if (!editTL.getText().toString().equals(""))
                 TL=Integer.parseInt(editTL.getText().toString());
-
                 textTL.setText(""+TL+"");
                 preferences.edit().putInt("TL",TL).apply();
-
+                onResume();
+                break;
+            case R.id.buyButton:
+                Intent toBuyTask=new Intent(this,BuyActivity.class);
+                startActivity(toBuyTask);
+                overridePendingTransition(R.animator.activity_buy_to_home_in, R.animator.activity_top_to_bottom_out);
                 break;
         }
     }
@@ -174,13 +198,14 @@ public class HomeActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                mPlayer.pause();
             }
         });
         alertDialog = builder.show();
         //铃声
         mPlayer.start();
         //通知
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, BuyActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setAutoCancel(true)
@@ -203,6 +228,11 @@ public class HomeActivity extends Activity {
     @Subscribe //订阅事件 FirstEvent
     public void onEventMainThread(BingoEvent event){
        Bingo();
+    }
+
+    @Subscribe
+    public void onEventInit(InitEvent event){
+        onResume();
     }
 
     @Subscribe //订阅事件

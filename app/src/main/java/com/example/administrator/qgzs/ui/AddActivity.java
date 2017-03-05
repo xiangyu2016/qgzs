@@ -63,6 +63,7 @@ public class AddActivity extends Activity {
         bean.setPrice(price.getText().toString());
         bean.setMiaosha(miaosha.isChecked()?1:0);
         bean.setDanjia(danjia.isChecked()?1:0);
+        bean.setName("");
         Log.i("getMiaosha: ",bean.getMiaosha()+"");
         if (bean.getGoodsID().equals("")) {
             Toast.makeText(this, "请填写商品编码！", Toast.LENGTH_SHORT).show();

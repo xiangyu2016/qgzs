@@ -19,7 +19,7 @@
                 android:layout_height="25dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/abc_ic_go"
-                android:visibility="gone" />
+                />
         </RelativeLayout>
 
 
@@ -131,9 +131,11 @@
             android:orientation="horizontal">
 
             <CheckBox
+                android:id="@+id/checkedAll"
+                android:text="全选"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible" />
+                />
 
             <TextView
                 android:layout_width="0dp"

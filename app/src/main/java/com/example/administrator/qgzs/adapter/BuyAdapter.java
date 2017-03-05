@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.administrator.qgzs.R;
@@ -36,7 +37,7 @@ public class BuyAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_item, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_buy_item, null);
         ViewHolder holder=new ViewHolder(view);
         return holder;
     }
@@ -46,6 +47,11 @@ public class BuyAdapter extends RecyclerView.Adapter {
         ViewHolder item= (ViewHolder) holder;
         item.id.setText(list.get(position).getGoodsID());
         item.price.setText(""+list.get(position).getPrice()+" 元");
+        if (list.get(position).getMiaosha()== 1)item.miaosha.setVisibility(View.VISIBLE);
+        if (list.get(position).getDanjia()==1)item.danjia.setVisibility(View.VISIBLE);
+        //设置商品名称
+        item.name.setText(list.get(position).getName());
+
         item.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +74,12 @@ public class BuyAdapter extends RecyclerView.Adapter {
         TextView price;
         @BindView(R.id.delete)
         TextView delete;
+        @BindView(R.id.name)
+        TextView name;
+        @BindView(R.id.miaosha)
+        TextView miaosha;
+        @BindView(R.id.danjia)
+        TextView danjia;
 
         ViewHolder(View view) {
             super(view);

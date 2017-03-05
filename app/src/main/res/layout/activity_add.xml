@@ -11,6 +11,7 @@
         android:background="@color/color_dark_red">
 
         <RelativeLayout
+            android:clickable="true"
             android:layout_alignParentEnd="true"
             android:id="@+id/buyButton"
             android:layout_width="44dp"

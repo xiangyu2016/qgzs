@@ -45,10 +45,20 @@ public class BuyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE GoodsBean (id INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ",goodsID VARCHAR(40)" +
                 ",price VARCHAR(20)" +
+                ",miaosha VARCHAR(20)" +
+                ",danjia VARCHAR(20)" +
+                ",isChecked VARCHAR(20)" +
+                ",bingo VARCHAR(20)" +
+                ",name VARCHAR(20)"+
                 ")");
         db.execSQL("CREATE TABLE BuyGoodsBean (id INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ",goodsID VARCHAR(40)" +
                 ",price VARCHAR(20)" +
+                ",miaosha VARCHAR(20)" +
+                ",danjia VARCHAR(20)" +
+                ",isChecked VARCHAR(20)" +
+                ",bingo VARCHAR(20)" +
+                ",name VARCHAR(20)"+
                 ")");
     }
     /**
@@ -72,8 +82,10 @@ public class BuyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         //向BuyGoodsBean表插入一条数据
         database.execSQL(
-                "INSERT INTO BuyGoodsBean(goodsID, price) VALUES(?,?)",
-                new Object[]{bean.getGoodsID(), bean.getPrice()});
+                "INSERT INTO BuyGoodsBean(goodsID, price, miaosha, danjia,isChecked, bingo,name) VALUES(?,?,?,?,?,?,?)",
+                new Object[]{bean.getGoodsID(), bean.getPrice(), bean.getMiaosha(), bean.getDanjia(),
+                        bean.getIsChecked(), bean.getBingo() ,bean.getName(),
+                });
     }
 
     /**
@@ -84,8 +96,9 @@ public class BuyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         //根据id更新一条数据
         database.execSQL(
-                "UPDATE BuyGoodsBean SET goodsID=?, price=?, WHERE id=?",
-                new Object[]{bean.getGoodsID(), bean.getPrice(), bean.getId()});
+                "UPDATE BuyGoodsBean SET goodsID=?, price=?,miaosha=?,danjia=?,isChecked=?,bingo=? ,name=? WHERE id=?",
+                new Object[]{bean.getGoodsID(), bean.getPrice(), bean.getMiaosha(), bean.getDanjia(),
+                        bean.getIsChecked(), bean.getBingo(),bean.getName(), bean.getId()});
     }
 
     /**
@@ -112,6 +125,11 @@ public class BuyDatabaseHelper extends SQLiteOpenHelper {
             bean.setId(cursor.getString(cursor.getColumnIndex("id")));
             bean.setGoodsID(cursor.getString(cursor.getColumnIndex("goodsID")));
             bean.setPrice(cursor.getString(cursor.getColumnIndex("price")));
+            bean.setMiaosha(Integer.parseInt(cursor.getString(cursor.getColumnIndex("miaosha"))));
+            bean.setDanjia(Integer.parseInt(cursor.getString(cursor.getColumnIndex("danjia"))));
+            bean.setIsChecked(Integer.parseInt(cursor.getString(cursor.getColumnIndex("isChecked"))));
+            bean.setBingo(Integer.parseInt(cursor.getString(cursor.getColumnIndex("bingo"))));
+            bean.setName(cursor.getString(cursor.getColumnIndex("name")));
             list.add(bean);
         }
         cursor.close();
@@ -136,6 +154,11 @@ public class BuyDatabaseHelper extends SQLiteOpenHelper {
             bean.setId(cursor.getString(cursor.getColumnIndex("id")));
             bean.setGoodsID(cursor.getString(cursor.getColumnIndex("goodsID")));
             bean.setPrice(cursor.getString(cursor.getColumnIndex("price")));
+            bean.setMiaosha(Integer.parseInt(cursor.getString(cursor.getColumnIndex("miaosha"))));
+            bean.setDanjia(Integer.parseInt(cursor.getString(cursor.getColumnIndex("danjia"))));
+            bean.setIsChecked(Integer.parseInt(cursor.getString(cursor.getColumnIndex("isChecked"))));
+            bean.setBingo(Integer.parseInt(cursor.getString(cursor.getColumnIndex("bingo"))));
+            bean.setName(cursor.getString(cursor.getColumnIndex("name")));
             cursor.close();
             return bean;
         } else {

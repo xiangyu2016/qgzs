@@ -15,10 +15,30 @@ public class Goods {
     private int isChecked;
     private int bingo;
 
+    private String name;
+    private int jdCoupon;
+
 
     public Goods() {
         isChecked=BooleanBean.TRUE;
         bingo=BooleanBean.FALSE;
+        jdCoupon=BooleanBean.FALSE;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getJdCoupon() {
+        return jdCoupon;
+    }
+
+    public void setJdCoupon(int jdCoupon) {
+        this.jdCoupon = jdCoupon;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setId(String id) {

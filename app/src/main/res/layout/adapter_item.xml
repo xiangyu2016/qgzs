@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout"
     android:orientation="vertical">
 
     <LinearLayout
@@ -20,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="42dp"
             android:layout_weight="3"
             android:text="6758578768"
             android:textColor="@color/color_dark_black"
@@ -51,61 +52,120 @@
     </LinearLayout>
 
     <LinearLayout
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:layout_width="match_parent"
-        android:layout_height="44dp">
-
-        <CheckBox
-            android:visibility="invisible"
-            android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/name"
+            android:textSize="12sp"
+            android:textColor="@color/color_dark_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+    </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+        <LinearLayout
+            android:id="@+id/setting"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+            <CheckBox
+                android:visibility="invisible"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/jdCoupon"
+                    android:visibility="gone"
+                    android:text="可使用京东券,    "
+                    android:textColor="@color/color_dark_black"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:gravity="center_vertical"
+                    android:text="检测模式："
+                    android:textColor="@color/color_dark_black"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/miaosha"
+                    android:gravity="center_vertical"
+                    android:text="秒杀    "
+                    android:textColor="@color/color_dark_black"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/danjia"
+                    android:gravity="center_vertical"
+                    android:text="单价"
+                    android:textColor="@color/color_dark_black"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/bingo_text"
+                    android:gravity="center_vertical"
+                    android:text="符合！快去购买！"
+                    android:textColor="@color/colorRed"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/price_setting_layout"
+            android:background="@color/color_white"
+            android:layout_gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="44dp">
             <TextView
-                android:gravity="center_vertical"
-                android:text="检测模式："
                 android:textColor="@color/color_dark_black"
                 android:textSize="12sp"
+                android:text="请重新设置期望价格："
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/miaosha"
-                android:gravity="center_vertical"
-                android:text="秒杀    "
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/set_price"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/set_price_button"
                 android:textColor="@color/color_dark_black"
                 android:textSize="12sp"
+                android:text="确定"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/danjia"
-                android:gravity="center_vertical"
-                android:text="单价"
-                android:textColor="@color/color_dark_black"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:visibility="gone"
-                android:layout_marginStart="20dp"
-                android:id="@+id/bingo_text"
-                android:gravity="center_vertical"
-                android:text="符合！快去购买！"
-                android:textColor="@color/colorRed"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
-    </LinearLayout>
+
+    </FrameLayout>
+
 
     <View
         android:layout_width="match_parent"
