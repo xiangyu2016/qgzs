@@ -31,6 +31,8 @@ public class AddActivity extends Activity {
     CheckBox miaosha;
     @BindView(R.id.danjia)
     CheckBox danjia;
+    @BindView(R.id.goodsName)
+    EditText goodsName;
 
 
     @Override
@@ -59,12 +61,15 @@ public class AddActivity extends Activity {
 
     private void save() {
         Goods bean = new Goods();
+        bean.setName(goodsName.getText().toString());
         bean.setGoodsID(goodsID.getText().toString());
         bean.setPrice(price.getText().toString());
         bean.setMiaosha(miaosha.isChecked()?1:0);
         bean.setDanjia(danjia.isChecked()?1:0);
-        bean.setName("");
-        Log.i("getMiaosha: ",bean.getMiaosha()+"");
+        if (bean.getName().equals("")) {
+            Toast.makeText(this, "请填写商品名称！"+bean.getName(), Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (bean.getGoodsID().equals("")) {
             Toast.makeText(this, "请填写商品编码！", Toast.LENGTH_SHORT).show();
             return;

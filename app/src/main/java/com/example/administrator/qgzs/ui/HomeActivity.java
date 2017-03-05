@@ -230,11 +230,6 @@ public class HomeActivity extends Activity {
        Bingo();
     }
 
-    @Subscribe
-    public void onEventInit(InitEvent event){
-        onResume();
-    }
-
     @Subscribe //订阅事件
     public void onEventSetIsChecked(SetCheckedEvent event){
         list.get(event.getPosition()).setIsChecked(event.getIsChecked());

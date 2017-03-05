@@ -59,9 +59,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
         if (list.get(position).getMiaosha()== 1)item.miaosha.setVisibility(View.VISIBLE);
         if (list.get(position).getDanjia()==1)item.danjia.setVisibility(View.VISIBLE);
         //设置商品名称
-        if(!list.get(position).getName().equals("")){
-            item.name.setText(list.get(position).getName());
-        }
+        item.name.setText(list.get(position).getName());
+
         //设置是否可以使用京东券
         if(list.get(position).getJdCoupon()==1)item.jdCoupon.setVisibility(View.VISIBLE);
         //设置是否选中

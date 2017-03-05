@@ -79,34 +79,32 @@ public class JudgePresenter {
             });
         }
         //添加商品名称
-        if(bean.getName().equals("")){
-            Log.i("bean.getName()",bean.getName());
-            Thread thread=new Thread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    // TODO Auto-generated method stub
-                    try {
-                        //从一个URL加载一个Document对象。
-                        //3243688
-                        Document doc = Jsoup.connect("https://item.jd.com/"+bean.getGoodsID()+".html").get();
-                        //选择“秒杀”所在节点
-                        Elements elements = doc.head().select("title");
-                        //设置商品名称
-                        bean.setName(elements.text());
-                        //更新数据库
-                        upDateBean(bean);
-                    }catch(Exception e) {
-                        Log.i("Tag", e.toString());
-                    }
-                }
-            });
-            thread.start();
-        }
+//        if(bean.getName().equals("")){
+//            Log.i("bean.getName()",bean.getName());
+//            Thread thread=new Thread(new Runnable()
+//            {
+//                @Override
+//                public void run()
+//                {
+//                    // TODO Auto-generated method stub
+//                    try {
+//                        //从一个URL加载一个Document对象。
+//                        //3243688
+//                        Document doc = Jsoup.connect("https://item.jd.com/"+bean.getGoodsID()+".html").get();
+//                        //选择“秒杀”所在节点
+//                        Elements elements = doc.head().select("title");
+//                        //设置商品名称
+//                        bean.setName(elements.text());
+//                        //更新数据库
+//                        upDateBean(bean);
+//                    }catch(Exception e) {
+//                        Log.i("Tag", e.toString());
+//                    }
+//                }
+//            });
+//            thread.start();
+//        }
         //是否可以使用京东券
-
-
     }
 
     public static void Bingo( Goods bean){
